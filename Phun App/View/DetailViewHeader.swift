@@ -13,41 +13,14 @@ class DetailViewHeader: UICollectionReusableView{
     
     static let identifier = "detailHeader"
     var delegate: DetailCellDelegate?
-
-    var item: Mission? {
-        didSet {
-            if let image = item?.image {
-                missionImageView.sd_setImage(
-                    with: URL(string: image),
-                    placeholderImage: UIImage(named: "Empire"),
-                    options: SDWebImageOptions(rawValue: 0) // YOU CAN ALSO DO TINT HERE
-                )
-            } else {
-                missionImageView.image = UIImage(named: "Empire")
-            }
-        }
-    }
-    var buttonHeight = CGFloat(44)
+    let buttonHeight = CGFloat(44)
     
-    lazy var backButton: UIButton = {
-        let bb = UIButton()
-        let backImage = UIImage(systemName: "chevron.left", withConfiguration: UIImage.SymbolConfiguration(pointSize: 28, weight: .regular, scale: .medium))?.withTintColor(.white, renderingMode: .alwaysOriginal)
-        bb.setImage(backImage, for: .normal)
-        bb.backgroundColor = .gray
-        bb.layer.cornerRadius = buttonHeight / 2
-        bb.layer.zPosition = 10
-        return bb
-    }()
+    let backButton = UIButton()
+    let shareButton = UIButton()
     
-    lazy var shareButton: UIButton = {
-        let sb = UIButton()
-        let shareImage = UIImage(systemName: "square.and.arrow.up.fill", withConfiguration: UIImage.SymbolConfiguration(pointSize: 28, weight: .regular, scale: .medium))?.withTintColor(.white, renderingMode: .alwaysOriginal)
-        sb.setImage(shareImage, for: .normal)
-        sb.backgroundColor = .gray
-        sb.layer.cornerRadius = buttonHeight / 2
-        sb.layer.zPosition = 10
-        return sb
-    }()
+    let backImage = UIImage(systemName: "chevron.left", withConfiguration: UIImage.SymbolConfiguration(pointSize: 28, weight: .regular, scale: .medium))?.withTintColor(.white, renderingMode: .alwaysOriginal)
+    
+    let shareImage = UIImage(systemName: "square.and.arrow.up.fill", withConfiguration: UIImage.SymbolConfiguration(pointSize: 28, weight: .regular, scale: .medium))?.withTintColor(.white, renderingMode: .alwaysOriginal)
     
     let missionImageView: UIImageView = {
         let mi = UIImageView()
@@ -57,7 +30,20 @@ class DetailViewHeader: UICollectionReusableView{
         return mi
     }()
     
-    public func configure() {        
+    public func configure(headerBounds: CGRect, item: Mission) {
+        if let image = item.image {
+            missionImageView.sd_setImage(
+                with: URL(string: image),
+                placeholderImage: UIImage(named: "placeholder"),
+                options: SDWebImageOptions(rawValue: 0) 
+            )
+        } else {
+            missionImageView.image = UIImage(named: "placeholder")
+        }
+        
+        backButton.setupButton(image: backImage)
+        shareButton.setupButton(image: shareImage)
+        
         let backGesture = UITapGestureRecognizer(target: self, action: #selector(goBack))
         backButton.addGestureRecognizer(backGesture)
         
@@ -67,8 +53,7 @@ class DetailViewHeader: UICollectionReusableView{
         addSubview(backButton)
         addSubview(shareButton)
         addSubview(missionImageView)
-        missionImageView.addBlackGradientLayerInBackground(frame: missionImageView.bounds, colors:[.clear, .black])
-//        missionImageView.addBlackGradientLayerInForeground(frame: missionImageView.bounds, colors:[.clear, .black])
+        missionImageView.addBlackGradientLayerInBackground(frame: headerBounds, colors:[.clear, .black])
 
         setupLayout()
         

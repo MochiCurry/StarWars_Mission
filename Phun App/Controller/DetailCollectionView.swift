@@ -9,29 +9,11 @@ import Foundation
 import UIKit
 import SDWebImage
 
-class InteractivePopRecognizer: NSObject, UIGestureRecognizerDelegate {
-    
-    var navigationController: UINavigationController
-    
-    init(controller: UINavigationController) {
-        self.navigationController = controller
-    }
-    
-    func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
-        return navigationController.viewControllers.count > 1
-    }
-    
-    // This is necessary because without it, subviews of your top controller can
-    // cancel out your gesture recognizer on the edge.
-    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
-        return true
-    }
-}
-
-class DetailCollectionView: BaseCollectionViewController, DetailCellDelegate {
+class DetailCollectionView: UICollectionViewController, UICollectionViewDelegateFlowLayout, DetailCellDelegate {
     
     let cellId = "cellId"
     var popRecognizer: InteractivePopRecognizer?
+    let headerHeight = CGFloat(300)
     var mission: Mission?
     
     var layout: UICollectionViewFlowLayout = {
@@ -41,6 +23,19 @@ class DetailCollectionView: BaseCollectionViewController, DetailCellDelegate {
         return layout
     }()
     
+//    lazy var layout: CustomCollectionViewFlowLayout = {
+//        let layout = CustomCollectionViewFlowLayout(display: .list, containerWidth: self.view.bounds.width)
+//        return layout
+//    }()
+    
+    init() {
+        super.init(collectionViewLayout: UICollectionViewFlowLayout())
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent
     }
@@ -48,8 +43,11 @@ class DetailCollectionView: BaseCollectionViewController, DetailCellDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         setInteractiveRecognizer()
-        collectionView.contentInset.top = -UIApplication.shared.statusBarFrame.height
-
+        
+        let window = UIApplication.shared.windows.filter {$0.isKeyWindow}.first
+        let height = window?.windowScene?.statusBarManager?.statusBarFrame.height ?? 0
+        collectionView.contentInset.top = -height
+        
         collectionView.backgroundColor = .black
         collectionView.register(DetailViewHeader.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: DetailViewHeader.identifier)
         collectionView.register(DetailCell.self, forCellWithReuseIdentifier: cellId)
@@ -63,6 +61,24 @@ class DetailCollectionView: BaseCollectionViewController, DetailCellDelegate {
         navigationController?.setNavigationBarHidden(true, animated: true)
     }
     
+    
+    
+//    override func viewWillLayoutSubviews() {
+//        super.viewWillLayoutSubviews()
+//        self.reloadCollectionViewLayout(self.view.bounds.size.width)
+//    }
+//
+//    private func reloadCollectionViewLayout(_ width: CGFloat) {
+//        self.collectionViewFlowLayout.containerWidth = width
+//        self.collectionViewFlowLayout.display = self.view.traitCollection.horizontalSizeClass == .compact && self.view.traitCollection.verticalSizeClass == .regular ? CollectionDisplay.list : CollectionDisplay.grid(columns: 2)
+//
+//    }
+    
+    
+    
+    
+    
+    
     private func setInteractiveRecognizer() {
         guard let controller = navigationController else {
             return
@@ -75,15 +91,13 @@ class DetailCollectionView: BaseCollectionViewController, DetailCellDelegate {
 extension DetailCollectionView {
     
     func didPressBackButton() {
-        print("Go back")
         if let navController = self.navigationController {
             navController.popViewController(animated: true)
         }
     }
     
     func didPressShareButton() {
-        let image = UIImage(named: "Empire")
-        
+        let image = UIImage(named: "placeholder")
         let imageToShare = [ image ]
         let activityViewController = UIActivityViewController(activityItems: imageToShare as [Any], applicationActivities: nil)
         activityViewController.popoverPresentationController?.sourceView = self.view
@@ -103,11 +117,14 @@ extension DetailCollectionView {
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! DetailCell
         
-//        cell.delegate = self
-        cell.mission = mission
-
+        if let mission = mission {
+            cell.configure(item: mission)
+        }
         return cell
     }
+}
+
+extension DetailCollectionView {
     
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         layout.estimatedItemSize = CGSize(width: view.bounds.size.width, height: 10)
@@ -115,7 +132,7 @@ extension DetailCollectionView {
     }
     
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
-        layout.estimatedItemSize = CGSize(width: view.bounds.size.width, height: 10)
+        layout.estimatedItemSize = CGSize(width: size.width, height: 10)
         layout.invalidateLayout()
         super.viewWillTransition(to: size, with: coordinator)
     }
@@ -124,23 +141,14 @@ extension DetailCollectionView {
         let header = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: DetailViewHeader.identifier, for: indexPath) as! DetailViewHeader
         
         header.delegate = self
-        header.item = mission
-        header.configure()
-        
+        let headerBounds = CGRect(x: 0, y: 0, width: view.frame.width, height: headerHeight)
+        if let mission = mission {
+            header.configure(headerBounds: headerBounds, item: mission)
+        }
         return header
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-        return CGSize(width: view.frame.width, height: 300)
+        return CGSize(width: view.frame.width, height: headerHeight)
     }
-    
-//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-//////        return CGSize(width: self.view.frame.width, height: self.view.frame.height)
-////        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! DetailCell
-//////        cell.setNeedsLayout()
-//////        cell.layoutIfNeeded()
-////        let size: CGSize = cell.contentView.systemLayoutSizeFitting(UIView.layoutFittingCompressedSize)
-//
-//        return CGSize(width: self.view.frame.width, height: self.view.frame.height)
-//    }
 }

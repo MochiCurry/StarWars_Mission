@@ -6,12 +6,7 @@
 //
 
 import Foundation
-
-enum NetworkError: LocalizedError {
-    case badURL
-    case badData
-    case badModel
-}
+import Alamofire
 
 class NetworkManager {
     
@@ -19,21 +14,28 @@ class NetworkManager {
     
     private let url = "https://raw.githubusercontent.com/phunware-services/dev-interview-homework/master/feed.json"
     
-    public func fetchMission(completion: @escaping (Result<[Mission], NetworkError>) -> ()) {
+    private init() {}
     
-        guard let apiURL = URL(string: url) else {
-            completion(.failure(.badURL))
-            return
+    public func fetchMission(completion: @escaping (AFResult<[Mission]>) -> ()) {
+
+            AF.request(url)
+                .validate(statusCode: 200..<300)
+                .response { (dataResponse) in
+                    if let err = dataResponse.error {
+                        completion(.failure(err))
+                        return
+                    }
+                    guard let data = dataResponse.data else {
+                        return
+                    }
+                    do {
+                        let decoder = JSONDecoder()
+                        let item = try decoder.decode([Mission].self, from: data)
+                        
+                        completion(.success(item))
+                    } catch {
+                        completion(.failure(error as! AFError))
+                    }
+                }
         }
-        guard let data = try? Data(contentsOf: apiURL) else {
-            completion(.failure(.badData))
-            return
-        }
-        let decoder = JSONDecoder()
-        guard let items = try? decoder.decode([Mission].self, from: data) else {
-            completion(.failure(.badModel))
-            return
-        }
-        completion(.success(items))
-    }
 }

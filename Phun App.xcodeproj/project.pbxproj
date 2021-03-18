@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5F7526B22600554C00E39FC4 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 5F7526B12600554C00E39FC4 /* Alamofire */; };
+		5F7526B826006AEB00E39FC4 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F7526B726006AEB00E39FC4 /* Extensions.swift */; };
+		5F75271A2602EB1800E39FC4 /* AdaptiveLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F7527192602EB1800E39FC4 /* AdaptiveLayout.swift */; };
 		5F77143C25FC4B3600621BA9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F77143B25FC4B3600621BA9 /* AppDelegate.swift */; };
 		5F77143E25FC4B3600621BA9 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F77143D25FC4B3600621BA9 /* SceneDelegate.swift */; };
 		5F77144025FC4B3600621BA9 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F77143F25FC4B3600621BA9 /* ContentView.swift */; };
@@ -18,7 +21,6 @@
 		5F77147225FC4C1800621BA9 /* Mission.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F77147125FC4C1800621BA9 /* Mission.swift */; };
 		5F77147A25FC4CB200621BA9 /* HomeCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F77147925FC4CB200621BA9 /* HomeCollectionView.swift */; };
 		5F77147F25FC4D7D00621BA9 /* MissionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F77147E25FC4D7D00621BA9 /* MissionCell.swift */; };
-		5F77148425FC4DCF00621BA9 /* BaseCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F77148325FC4DCF00621BA9 /* BaseCollectionViewController.swift */; };
 		5F77148D25FC4F4500621BA9 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F77148C25FC4F4500621BA9 /* NetworkManager.swift */; };
 		5F77149325FC636B00621BA9 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 5F77149225FC636B00621BA9 /* SnapKit */; };
 		5F77149925FC641500621BA9 /* SDWebImage in Frameworks */ = {isa = PBXBuildFile; productRef = 5F77149825FC641500621BA9 /* SDWebImage */; };
@@ -27,6 +29,7 @@
 		5F7714AB25FD8B0500621BA9 /* DetailViewHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F7714AA25FD8B0500621BA9 /* DetailViewHeader.swift */; };
 		5F7714B725FDC4C600621BA9 /* DateFormatHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F7714B625FDC4C600621BA9 /* DateFormatHelper.swift */; };
 		5F7714C225FDC5AD00621BA9 /* ImageGradientHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F7714C125FDC5AD00621BA9 /* ImageGradientHelper.swift */; };
+		5F77151C25FFDA1D00621BA9 /* InteractivePopRecognizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F77151B25FFDA1D00621BA9 /* InteractivePopRecognizer.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -47,6 +50,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		5F7526B726006AEB00E39FC4 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		5F7527192602EB1800E39FC4 /* AdaptiveLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdaptiveLayout.swift; sourceTree = "<group>"; };
 		5F77143825FC4B3600621BA9 /* Phun App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Phun App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		5F77143B25FC4B3600621BA9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		5F77143D25FC4B3600621BA9 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -64,13 +69,13 @@
 		5F77147125FC4C1800621BA9 /* Mission.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Mission.swift; sourceTree = "<group>"; };
 		5F77147925FC4CB200621BA9 /* HomeCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCollectionView.swift; sourceTree = "<group>"; };
 		5F77147E25FC4D7D00621BA9 /* MissionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MissionCell.swift; sourceTree = "<group>"; };
-		5F77148325FC4DCF00621BA9 /* BaseCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseCollectionViewController.swift; sourceTree = "<group>"; };
 		5F77148C25FC4F4500621BA9 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		5F7714A025FC6A7600621BA9 /* DetailCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailCollectionView.swift; sourceTree = "<group>"; };
 		5F7714A525FC6AC100621BA9 /* DetailCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailCell.swift; sourceTree = "<group>"; };
 		5F7714AA25FD8B0500621BA9 /* DetailViewHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewHeader.swift; sourceTree = "<group>"; };
 		5F7714B625FDC4C600621BA9 /* DateFormatHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateFormatHelper.swift; sourceTree = "<group>"; };
 		5F7714C125FDC5AD00621BA9 /* ImageGradientHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageGradientHelper.swift; sourceTree = "<group>"; };
+		5F77151B25FFDA1D00621BA9 /* InteractivePopRecognizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InteractivePopRecognizer.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -78,6 +83,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5F7526B22600554C00E39FC4 /* Alamofire in Frameworks */,
 				5F77149925FC641500621BA9 /* SDWebImage in Frameworks */,
 				5F77149325FC636B00621BA9 /* SnapKit in Frameworks */,
 			);
@@ -100,6 +106,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		5F7527182602EAF100E39FC4 /* Layout */ = {
+			isa = PBXGroup;
+			children = (
+				5F7527192602EB1800E39FC4 /* AdaptiveLayout.swift */,
+			);
+			path = Layout;
+			sourceTree = "<group>";
+		};
 		5F77142F25FC4B3600621BA9 = {
 			isa = PBXGroup;
 			children = (
@@ -130,7 +144,7 @@
 				5F77143B25FC4B3600621BA9 /* AppDelegate.swift */,
 				5F77143D25FC4B3600621BA9 /* SceneDelegate.swift */,
 				5F77143F25FC4B3600621BA9 /* ContentView.swift */,
-				5F7714B525FDC4AC00621BA9 /* Helper */,
+				5F7714B525FDC4AC00621BA9 /* helper+extension */,
 				5F77144125FC4B3700621BA9 /* Assets.xcassets */,
 				5F77144625FC4B3700621BA9 /* LaunchScreen.storyboard */,
 				5F77144925FC4B3700621BA9 /* Info.plist */,
@@ -186,8 +200,8 @@
 		5F77147025FC4B6900621BA9 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				5F7527182602EAF100E39FC4 /* Layout */,
 				5F77147925FC4CB200621BA9 /* HomeCollectionView.swift */,
-				5F77148325FC4DCF00621BA9 /* BaseCollectionViewController.swift */,
 				5F7714A025FC6A7600621BA9 /* DetailCollectionView.swift */,
 			);
 			path = Controller;
@@ -201,13 +215,15 @@
 			path = NetworkManager;
 			sourceTree = "<group>";
 		};
-		5F7714B525FDC4AC00621BA9 /* Helper */ = {
+		5F7714B525FDC4AC00621BA9 /* helper+extension */ = {
 			isa = PBXGroup;
 			children = (
 				5F7714B625FDC4C600621BA9 /* DateFormatHelper.swift */,
 				5F7714C125FDC5AD00621BA9 /* ImageGradientHelper.swift */,
+				5F77151B25FFDA1D00621BA9 /* InteractivePopRecognizer.swift */,
+				5F7526B726006AEB00E39FC4 /* Extensions.swift */,
 			);
-			path = Helper;
+			path = "helper+extension";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -229,6 +245,7 @@
 			packageProductDependencies = (
 				5F77149225FC636B00621BA9 /* SnapKit */,
 				5F77149825FC641500621BA9 /* SDWebImage */,
+				5F7526B12600554C00E39FC4 /* Alamofire */,
 			);
 			productName = "Phun App";
 			productReference = 5F77143825FC4B3600621BA9 /* Phun App.app */;
@@ -304,6 +321,7 @@
 			packageReferences = (
 				5F77149125FC636B00621BA9 /* XCRemoteSwiftPackageReference "SnapKit" */,
 				5F77149725FC641500621BA9 /* XCRemoteSwiftPackageReference "SDWebImage" */,
+				5F7526B02600554C00E39FC4 /* XCRemoteSwiftPackageReference "Alamofire" */,
 			);
 			productRefGroup = 5F77143925FC4B3600621BA9 /* Products */;
 			projectDirPath = "";
@@ -349,14 +367,16 @@
 			buildActionMask = 2147483647;
 			files = (
 				5F7714A625FC6AC100621BA9 /* DetailCell.swift in Sources */,
-				5F77148425FC4DCF00621BA9 /* BaseCollectionViewController.swift in Sources */,
 				5F77143C25FC4B3600621BA9 /* AppDelegate.swift in Sources */,
 				5F7714A125FC6A7600621BA9 /* DetailCollectionView.swift in Sources */,
+				5F75271A2602EB1800E39FC4 /* AdaptiveLayout.swift in Sources */,
+				5F77151C25FFDA1D00621BA9 /* InteractivePopRecognizer.swift in Sources */,
 				5F77143E25FC4B3600621BA9 /* SceneDelegate.swift in Sources */,
 				5F77147225FC4C1800621BA9 /* Mission.swift in Sources */,
 				5F77148D25FC4F4500621BA9 /* NetworkManager.swift in Sources */,
 				5F7714C225FDC5AD00621BA9 /* ImageGradientHelper.swift in Sources */,
 				5F7714AB25FD8B0500621BA9 /* DetailViewHeader.swift in Sources */,
+				5F7526B826006AEB00E39FC4 /* Extensions.swift in Sources */,
 				5F7714B725FDC4C600621BA9 /* DateFormatHelper.swift in Sources */,
 				5F77144025FC4B3600621BA9 /* ContentView.swift in Sources */,
 				5F77147F25FC4D7D00621BA9 /* MissionCell.swift in Sources */,
@@ -691,6 +711,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		5F7526B02600554C00E39FC4 /* XCRemoteSwiftPackageReference "Alamofire" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Alamofire/Alamofire.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.4.1;
+			};
+		};
 		5F77149125FC636B00621BA9 /* XCRemoteSwiftPackageReference "SnapKit" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/SnapKit/SnapKit.git";
@@ -710,6 +738,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		5F7526B12600554C00E39FC4 /* Alamofire */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 5F7526B02600554C00E39FC4 /* XCRemoteSwiftPackageReference "Alamofire" */;
+			productName = Alamofire;
+		};
 		5F77149225FC636B00621BA9 /* SnapKit */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 5F77149125FC636B00621BA9 /* XCRemoteSwiftPackageReference "SnapKit" */;

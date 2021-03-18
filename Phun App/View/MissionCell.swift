@@ -10,53 +10,14 @@ import UIKit
 import SnapKit
 import SDWebImage
 
-
-extension UILabel {
-    func setupLabel() {
-//        let label = UILabel()
-        self.translatesAutoresizingMaskIntoConstraints = false
-        self.numberOfLines = 0
-//        self.font = .boldSystemFont(ofSize: 20)
-        self.textColor = .white
-//        return label
-    }
-}
 class MissionCell: UICollectionViewCell {
     
-    var item: Mission? {
-        didSet {
-//            missionDate.text = item?.date
-            missionTitle.text = item?.title
-            missionLocation.text = item?.locationline1
-            missionDescription.text = item?.description
-            
-            if let image = item?.image {
-//                missionImageView.sd_setImage(with: URL(string: image))
-                missionImageView.sd_setImage(
-                    with: URL(string: image),
-                    placeholderImage: UIImage(named: "Empire"),
-                    options: SDWebImageOptions(rawValue: 0) // YOU CAN ALSO DO TINT HERE
-                )
-            } else {
-                missionImageView.image = UIImage(named: "Empire")
-//                missionImageView.contentMode = .scaleAspectFit
-            }
-            
-            if let dateString = item?.date {
-                if let dateInDate = DateFormatHelper.shared.stringToDate(date: dateString) {
-                    let dateFormatted = DateFormatHelper.shared.dateToString(date: dateInDate)
-                    missionDate.text = dateFormatted
-                }
-            }
-        }
-    }
+    private var missionDate = UILabel()
+    private var missionTitle = UILabel()
+    private var missionLocation = UILabel()
+    private var missionDescription = UILabel()
     
-    var missionDate = UILabel()
-    var missionTitle = UILabel()
-    var missionLocation = UILabel()
-    var missionDescription = UILabel()
-    
-    let missionImageView: UIImageView = {
+    private var missionImageView: UIImageView = {
         let mi = UIImageView()
         mi.translatesAutoresizingMaskIntoConstraints = false
         mi.layer.masksToBounds = true
@@ -65,38 +26,23 @@ class MissionCell: UICollectionViewCell {
         return mi
     }()
     
-    let dynamicView: UIView = {
+    private var dynamicView: UIView = {
         let dv = UIView()
         dv.layer.masksToBounds = true
         dv.backgroundColor = .clear
         return dv
     }()
     
-    let transparentView: UIView = {
+    private var transparentView: UIView = {
         let tv = UIView()
         tv.backgroundColor = UIColor(red: 0/255, green: 0/255, blue: 0/255, alpha: 0.4)
         tv.layer.cornerRadius = 12
         return tv
     }()
     
-    
-//    func setupLabel(label: UILabel) {
-//        label.translatesAutoresizingMaskIntoConstraints = true
-//        label.numberOfLines = 0
-////        label.font = .boldSystemFont(ofSize: 20)
-//        label.textColor = .white
-////        return label
-//    }
-    
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        
-//        setupLabel(label: missionDate)
-//        setupLabel(label: missionTitle)
-//        setupLabel(label: missionLocation)
-//        setupLabel(label: missionDescription)
-//
         missionDate.setupLabel()
         missionTitle.setupLabel()
         missionLocation.setupLabel()
@@ -105,7 +51,6 @@ class MissionCell: UICollectionViewCell {
         missionDate.font = .boldSystemFont(ofSize: 18)
         missionTitle.font = .boldSystemFont(ofSize: 32)
         missionLocation.font = .boldSystemFont(ofSize: 18)
-//        missionDescription.font = .boldSystemFont(ofSize: 24)
         
         contentView.addSubview(dynamicView)
         dynamicView.addSubview(missionImageView)
@@ -114,10 +59,129 @@ class MissionCell: UICollectionViewCell {
         dynamicView.addSubview(missionTitle)
         dynamicView.addSubview(missionLocation)
         dynamicView.addSubview(missionDescription)
-        setupLayout()
+//        setupLayout()
+        
+        backgroundColor = .red
     }
     
-    func addOverlay(on view: UIView) {
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    
+    
+    
+    
+    
+    
+    private var compactConstraints: [NSLayoutConstraint] = []
+    private var regularConstraints: [NSLayoutConstraint] = []
+    private var sharedConstraints: [NSLayoutConstraint] = []
+    
+    func layoutTrait(traitCollection: UITraitCollection) {
+        if (!sharedConstraints[0].isActive) {
+            // activating shared constraints
+            NSLayoutConstraint.activate(sharedConstraints)
+        }
+        if traitCollection.horizontalSizeClass == .compact && traitCollection.verticalSizeClass == .regular {
+            if regularConstraints.count > 0 && regularConstraints[0].isActive {
+                NSLayoutConstraint.deactivate(regularConstraints)
+            }
+            // activating compact constraints
+            NSLayoutConstraint.activate(compactConstraints)
+        } else {
+            if compactConstraints.count > 0 && compactConstraints[0].isActive {
+                NSLayoutConstraint.deactivate(compactConstraints)
+            }
+            // activating regular constraints
+            NSLayoutConstraint.activate(regularConstraints)
+        }
+    }
+    
+    func setupConstraints() {
+        sharedConstraints.append(contentsOf: [
+            dynamicView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 12),
+            dynamicView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -12),
+            dynamicView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -12),
+            dynamicView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 12),
+            
+            missionImageView.leadingAnchor.constraint(equalTo: dynamicView.leadingAnchor),
+            missionImageView.bottomAnchor.constraint(equalTo: dynamicView.bottomAnchor),
+            missionImageView.trailingAnchor.constraint(equalTo: dynamicView.trailingAnchor),
+            missionImageView.topAnchor.constraint(equalTo: dynamicView.topAnchor),
+            
+            transparentView.leadingAnchor.constraint(equalTo: dynamicView.leadingAnchor),
+            transparentView.bottomAnchor.constraint(equalTo: dynamicView.bottomAnchor),
+            transparentView.trailingAnchor.constraint(equalTo: dynamicView.trailingAnchor),
+            transparentView.topAnchor.constraint(equalTo: dynamicView.topAnchor),
+            
+            
+//            image1.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+//            image1.topAnchor.constraint(equalTo: view.topAnchor),
+//            image2.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+//            image2.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            
+        ])
+        
+//        regularConstraints.append(contentsOf: [
+//            image1.trailingAnchor.constraint(equalTo: image2.leadingAnchor, constant: -10),
+//            image1.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+//            image2.topAnchor.constraint(equalTo: view.topAnchor),
+//        ])
+//        
+//        compactConstraints.append(contentsOf: [
+//            image1.bottomAnchor.constraint(equalTo: image2.topAnchor, constant: -10),
+//            image1.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+//            image2.leadingAnchor.constraint(equalTo: view.leadingAnchor)
+//        ])
+    }
+    
+    
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        
+        layoutTrait(traitCollection: traitCollection)
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    public func configure(item: Mission) {
+        missionTitle.text = item.title
+        missionLocation.text = item.locationline1
+        missionDescription.text = item.description
+        
+        if let image = item.image {
+            missionImageView.sd_setImage(
+                with: URL(string: image),
+                placeholderImage: UIImage(named: "placeholder"),
+                options: SDWebImageOptions(rawValue: 0) 
+            )
+        } else {
+            missionImageView.image = UIImage(named: "placeholder")
+        }
+        
+        if let dateString = item.date {
+            if let dateInDate = DateFormatHelper.shared.stringToDate(date: dateString) {
+                let dateFormatted = DateFormatHelper.shared.dateToString(date: dateInDate)
+                missionDate.text = dateFormatted
+            }
+        }
+    }
+    
+    private func addOverlay(on view: UIView) {
         let overlay = UIView()
         overlay.backgroundColor = UIColor(red: 0/255, green: 0/255, blue: 0/255, alpha: 0.3)
         view.addSubview(overlay)
@@ -153,11 +217,4 @@ class MissionCell: UICollectionViewCell {
         }
 
     }
-
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    
 }

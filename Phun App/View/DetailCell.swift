@@ -17,77 +17,44 @@ protocol DetailCellDelegate {
 
 class DetailCell: UICollectionViewCell {
     
+    private var delegate: DetailCellDelegate?
+    private var buttonHeight = CGFloat(44)
+    private var missionDate = UILabel()
+    private var missionTitle = UILabel()
+    private var missionLocation = UILabel()
+    private var missionDescription = UILabel()
     
-    var mission: Mission? {
-        didSet {
-            missionTitle.text = mission?.title
-            missionLocation.text = mission?.locationline1
-            missionDescription.text = mission?.description
-            
-            if let dateString = mission?.date {
-                if let dateInDate = DateFormatHelper.shared.stringToDate(date: dateString) {
-                    let dateFormatted = DateFormatHelper.shared.dateToString(date: dateInDate)
-                    missionDate.text = dateFormatted
-                }
-            }
-        }
-    }
-    
-    lazy var width: NSLayoutConstraint = {
+    private lazy var width: NSLayoutConstraint = {
         let width = contentView.widthAnchor.constraint(equalToConstant: bounds.size.width)
         width.isActive = true
         return width
     }()
-    
-    var buttonHeight = CGFloat(44)
-    
-    lazy var backButton: UIButton = {
-        let bb = UIButton()
-        let backImage = UIImage(systemName: "chevron.left", withConfiguration: UIImage.SymbolConfiguration(pointSize: 28, weight: .regular, scale: .medium))?.withTintColor(.white, renderingMode: .alwaysOriginal)
-        bb.setImage(backImage, for: .normal)
-        bb.backgroundColor = .gray
-        bb.layer.cornerRadius = buttonHeight / 2
-        return bb
-    }()
-    
-    lazy var shareButton: UIButton = {
-        let sb = UIButton()
-        let shareImage = UIImage(systemName: "square.and.arrow.up.fill", withConfiguration: UIImage.SymbolConfiguration(pointSize: 28, weight: .regular, scale: .medium))?.withTintColor(.white, renderingMode: .alwaysOriginal)
-        sb.setImage(shareImage, for: .normal)
-        sb.backgroundColor = .gray
-        sb.layer.cornerRadius = buttonHeight / 2
-        return sb
-    }()
-    
-//    let missionImageView: UIImageView = {
-//        let mi = UIImageView()
-//        mi.translatesAutoresizingMaskIntoConstraints = false
-//        mi.layer.masksToBounds = true
-//        mi.layer.cornerRadius = 12
-//        mi.contentMode = .scaleAspectFill
-//        return mi
-//    }()
-    
-    var delegate: DetailCellDelegate?
-    var missionDate = UILabel()
-    var missionTitle = UILabel()
-    var missionLocation = UILabel()
-    var missionDescription = UILabel()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
                
         backgroundColor = .black
         contentView.translatesAutoresizingMaskIntoConstraints = false
-
-        let backGesture = UITapGestureRecognizer(target: self, action: #selector(goBack))
-        backButton.addGestureRecognizer(backGesture)
-        
-        let shareGesture = UITapGestureRecognizer(target: self, action: #selector(goShare))
-        shareButton.addGestureRecognizer(shareGesture)
         
         setupView()
         setupLayout()
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    public func configure(item: Mission) {
+        missionTitle.text = item.title
+        missionLocation.text = item.locationline1
+        missionDescription.text = item.description
+        
+        if let dateString = item.date {
+            if let dateInDate = DateFormatHelper.shared.stringToDate(date: dateString) {
+                let dateFormatted = DateFormatHelper.shared.dateToString(date: dateInDate)
+                missionDate.text = dateFormatted
+            }
+        }
     }
     
     @objc private func goBack(sender: UITapGestureRecognizer) {
@@ -113,9 +80,6 @@ class DetailCell: UICollectionViewCell {
         missionTitle.font = .boldSystemFont(ofSize: 32)
         missionLocation.font = .boldSystemFont(ofSize: 18)
         
-//        contentView.addSubview(backButton)
-//        contentView.addSubview(shareButton)
-//        contentView.addSubview(missionImageView)
         contentView.addSubview(missionDate)
         contentView.addSubview(missionTitle)
         contentView.addSubview(missionLocation)
@@ -123,15 +87,6 @@ class DetailCell: UICollectionViewCell {
     }
     
     private func setupLayout() {
-        
-//        backButton.snp.makeConstraints { (make) in
-//            make.top.leading.equalToSuperview().inset(14)
-//            make.width.height.equalTo(buttonHeight)
-//        }
-//        shareButton.snp.makeConstraints { (make) in
-//            make.top.trailing.equalToSuperview().inset(14)
-//            make.width.height.equalTo(buttonHeight)
-//        }
         missionDate.snp.makeConstraints { (make) in
             make.leading.trailing.equalToSuperview().inset(24)
             make.top.equalToSuperview().offset(24)
@@ -152,9 +107,4 @@ class DetailCell: UICollectionViewCell {
             contentView.bottomAnchor.constraint(equalTo: lastSubview.bottomAnchor, constant: 24).isActive = true
         }
     }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
 }
