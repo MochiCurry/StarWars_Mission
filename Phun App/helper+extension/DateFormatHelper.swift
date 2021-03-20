@@ -20,7 +20,6 @@ class DateFormatHelper {
     
     public func dateToString(date: Date) -> String {
         let dateFormatter = DateFormatter()
-//        dateFormatter.dateFormat = "h:mm a 'on' MMMM dd, yyyy"
         dateFormatter.dateFormat = "MMMM dd, yyyy 'at' h:mma"
         dateFormatter.amSymbol = "am"
         dateFormatter.pmSymbol = "pm"

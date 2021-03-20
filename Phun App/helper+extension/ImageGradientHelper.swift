@@ -8,17 +8,32 @@
 import Foundation
 import UIKit
 
-extension UIView{
-    func addBlackGradientLayerInForeground(frame: CGRect, colors:[UIColor]){
-        let gradient = CAGradientLayer()
-        gradient.frame = frame
-        gradient.colors = colors.map{$0.cgColor}
-        self.layer.addSublayer(gradient)
+class GradientView: UIView {
+
+    private let gradient : CAGradientLayer = CAGradientLayer()
+    private let gradientStartColor: UIColor
+    private let gradientEndColor: UIColor
+
+    init(gradientStartColor: UIColor, gradientEndColor: UIColor) {
+        self.gradientStartColor = gradientStartColor
+        self.gradientEndColor = gradientEndColor
+        super.init(frame: .zero)
     }
-    func addBlackGradientLayerInBackground(frame: CGRect, colors:[UIColor]){
-        let gradient = CAGradientLayer()
-        gradient.frame = frame
-        gradient.colors = colors.map{$0.cgColor}
-        self.layer.insertSublayer(gradient, at: 0)
+
+    required init?(coder aDecoder: NSCoder) { fatalError("init(coder:) has not been implemented") }
+
+    override func layoutSublayers(of layer: CALayer) {
+        super.layoutSublayers(of: layer)
+        gradient.frame = self.bounds
+    }
+
+    override public func draw(_ rect: CGRect) {
+        gradient.frame = self.bounds
+        gradient.colors = [gradientEndColor.cgColor, gradientStartColor.cgColor]
+        gradient.endPoint = CGPoint(x: 1, y: 0)
+        gradient.startPoint = CGPoint(x: 1, y: 1)
+        if gradient.superlayer == nil {
+            layer.insertSublayer(gradient, at: 0)
+        }
     }
 }

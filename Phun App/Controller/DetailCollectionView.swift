@@ -23,11 +23,6 @@ class DetailCollectionView: UICollectionViewController, UICollectionViewDelegate
         return layout
     }()
     
-//    lazy var layout: CustomCollectionViewFlowLayout = {
-//        let layout = CustomCollectionViewFlowLayout(display: .list, containerWidth: self.view.bounds.width)
-//        return layout
-//    }()
-    
     init() {
         super.init(collectionViewLayout: UICollectionViewFlowLayout())
     }
@@ -54,30 +49,13 @@ class DetailCollectionView: UICollectionViewController, UICollectionViewDelegate
         collectionView.collectionViewLayout = layout
         collectionView.delegate = self
         collectionView.dataSource = self
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
         navigationController?.setNavigationBarHidden(true, animated: true)
     }
-    
-    
-    
-//    override func viewWillLayoutSubviews() {
-//        super.viewWillLayoutSubviews()
-//        self.reloadCollectionViewLayout(self.view.bounds.size.width)
-//    }
-//
-//    private func reloadCollectionViewLayout(_ width: CGFloat) {
-//        self.collectionViewFlowLayout.containerWidth = width
-//        self.collectionViewFlowLayout.display = self.view.traitCollection.horizontalSizeClass == .compact && self.view.traitCollection.verticalSizeClass == .regular ? CollectionDisplay.list : CollectionDisplay.grid(columns: 2)
-//
-//    }
-    
-    
-    
-    
-    
     
     private func setInteractiveRecognizer() {
         guard let controller = navigationController else {
@@ -88,6 +66,7 @@ class DetailCollectionView: UICollectionViewController, UICollectionViewDelegate
     }
 }
 
+/// Delegate and Protocol pattern for back and share buttons.
 extension DetailCollectionView {
     
     func didPressBackButton() {
@@ -108,6 +87,7 @@ extension DetailCollectionView {
     }
 }
 
+/// Detail Cell
 extension DetailCollectionView {
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -124,6 +104,39 @@ extension DetailCollectionView {
     }
 }
 
+/// Detail Header Cell
+extension DetailCollectionView {
+    
+    override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        
+        let header = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: DetailViewHeader.identifier, for: indexPath) as! DetailViewHeader
+        
+        header.delegate = self
+        let insetHeight = self.view.safeAreaInsets.top
+       
+        if let mission = mission {
+            if UIDevice().userInterfaceIdiom == .pad {
+                header.configure(insetHeight: insetHeight, item: mission)
+
+            } else {
+                header.configure(insetHeight: insetHeight, item: mission)
+            }
+        }
+        return header
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
+        
+        if UIDevice().userInterfaceIdiom == .pad {
+            return CGSize(width: view.frame.width, height: view.frame.height / 2)
+
+        }
+        return CGSize(width: view.frame.width, height: headerHeight)
+    }
+}
+
+/// Helps make Detail Cell size dynamic.
+/// Helps Gradient View resize.
 extension DetailCollectionView {
     
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
@@ -132,23 +145,10 @@ extension DetailCollectionView {
     }
     
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
-        layout.estimatedItemSize = CGSize(width: size.width, height: 10)
-        layout.invalidateLayout()
         super.viewWillTransition(to: size, with: coordinator)
-    }
-    
-    override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-        let header = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: DetailViewHeader.identifier, for: indexPath) as! DetailViewHeader
-        
-        header.delegate = self
-        let headerBounds = CGRect(x: 0, y: 0, width: view.frame.width, height: headerHeight)
-        if let mission = mission {
-            header.configure(headerBounds: headerBounds, item: mission)
+        guard let flowLayout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout else {
+            return
         }
-        return header
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-        return CGSize(width: view.frame.width, height: headerHeight)
+        flowLayout.invalidateLayout()
     }
 }

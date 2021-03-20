@@ -30,7 +30,27 @@ class DetailViewHeader: UICollectionReusableView{
         return mi
     }()
     
-    public func configure(headerBounds: CGRect, item: Mission) {
+    let gradientView = GradientView(gradientStartColor: .clear, gradientEndColor: .black)
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        
+        backButton.setupButton(image: backImage)
+        shareButton.setupButton(image: shareImage)
+        
+        let backGesture = UITapGestureRecognizer(target: self, action: #selector(goBack))
+        backButton.addGestureRecognizer(backGesture)
+        
+        let shareGesture = UITapGestureRecognizer(target: self, action: #selector(goShare))
+        shareButton.addGestureRecognizer(shareGesture)
+                
+        addSubview(backButton)
+        addSubview(shareButton)
+        addSubview(missionImageView)
+        missionImageView.addSubview(gradientView)
+    }
+    
+    public func configure(insetHeight: CGFloat, item: Mission) {
         if let image = item.image {
             missionImageView.sd_setImage(
                 with: URL(string: image),
@@ -41,22 +61,7 @@ class DetailViewHeader: UICollectionReusableView{
             missionImageView.image = UIImage(named: "placeholder")
         }
         
-        backButton.setupButton(image: backImage)
-        shareButton.setupButton(image: shareImage)
-        
-        let backGesture = UITapGestureRecognizer(target: self, action: #selector(goBack))
-        backButton.addGestureRecognizer(backGesture)
-        
-        let shareGesture = UITapGestureRecognizer(target: self, action: #selector(goShare))
-        shareButton.addGestureRecognizer(shareGesture)
-        
-        addSubview(backButton)
-        addSubview(shareButton)
-        addSubview(missionImageView)
-        missionImageView.addBlackGradientLayerInBackground(frame: headerBounds, colors:[.clear, .black])
-
-        setupLayout()
-        
+        setupLayout(insetHeight: insetHeight)
     }
     
     @objc private func goBack(sender: UITapGestureRecognizer) {
@@ -71,19 +76,28 @@ class DetailViewHeader: UICollectionReusableView{
         super.layoutSubviews()
     }
     
-    private func setupLayout() {
+    private func setupLayout(insetHeight: CGFloat) {
+        
         backButton.snp.makeConstraints { (make) in
-            make.top.equalToSuperview().inset(24)
+            make.top.equalToSuperview().inset(insetHeight + 14)
             make.leading.equalToSuperview().inset(14)
             make.width.height.equalTo(buttonHeight)
         }
         shareButton.snp.makeConstraints { (make) in
-            make.top.equalToSuperview().inset(24)
+            make.top.equalToSuperview().inset(insetHeight + 14)
             make.trailing.equalToSuperview().inset(14)
             make.width.height.equalTo(buttonHeight)
         }
         missionImageView.snp.makeConstraints { (make) in
             make.size.equalToSuperview()
         }
+        gradientView.snp.makeConstraints { (make) in
+            make.size.equalToSuperview()
+        }
     }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
 }

@@ -7,6 +7,7 @@
 
 import Foundation
 
+/// Used Optionals for many of them because similar JSON content might be missing many attributes and not just the image like in this example
 struct Mission: Decodable {
     let id: Int
     let description: String?

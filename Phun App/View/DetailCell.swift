@@ -88,19 +88,23 @@ class DetailCell: UICollectionViewCell {
     
     private func setupLayout() {
         missionDate.snp.makeConstraints { (make) in
-            make.leading.trailing.equalToSuperview().inset(24)
+            make.centerX.equalToSuperview()
+            make.width.equalToSuperview().multipliedBy(0.8)
             make.top.equalToSuperview().offset(24)
         }
         missionTitle.snp.makeConstraints { (make) in
-            make.leading.trailing.equalToSuperview().inset(24)
+            make.centerX.equalToSuperview()
+            make.width.equalToSuperview().multipliedBy(0.8)
             make.top.equalTo(missionDate.snp.bottom).offset(24)
         }
         missionLocation.snp.makeConstraints { (make) in
-            make.leading.trailing.equalToSuperview().inset(24)
+            make.centerX.equalToSuperview()
+            make.width.equalToSuperview().multipliedBy(0.8)
             make.top.equalTo(missionTitle.snp.bottom).offset(42)
         }
         missionDescription.snp.makeConstraints { (make) in
-            make.leading.trailing.equalToSuperview().inset(24)
+            make.centerX.equalToSuperview()
+            make.width.equalToSuperview().multipliedBy(0.8)
             make.top.equalTo(missionLocation.snp.bottom).offset(12)
         }
         if let lastSubview = contentView.subviews.last {
