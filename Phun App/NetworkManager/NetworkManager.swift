@@ -12,7 +12,7 @@ class NetworkManager {
     
     static let shared = NetworkManager()
     
-    private let url = "https://raw.githubusercontent.com/phunware-services/dev-interview-homework/master/feed.json"
+    private let url = "https://raw.githubusercontent.com/MochiCurry/mockjson/main/StarWars.json"
     
     private init() {}
     
